@@ -7,8 +7,6 @@ gem 'rubocop', '>= 1.0', '< 2.0'
 
 gem 'devise'
 
-gem 'cancancan'
-
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.3'
 
@@ -16,7 +14,7 @@ gem 'rails', '~> 7.0.3'
 gem 'sprockets-rails'
 
 # Use postgresql as the database for Active Record
-# gem 'pg', '~> 1.1'
+gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '~> 5.0'
@@ -60,7 +58,6 @@ gem 'bootsnap', require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem 'bullet'
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'rspec-rails'
 end
@@ -79,11 +76,6 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
-  gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'webdrivers'
-end
-group :production do
-  gem "pg",         "1.3.5"
-  gem "aws-sdk-s3", "1.114.0", require: false
 end

@@ -1,5 +1,4 @@
 class RecipesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_recipe, only: %i[show edit update destroy]
 
   # GET /recipes or /recipes.json
@@ -9,11 +8,7 @@ class RecipesController < ApplicationController
   end
 
   # GET /recipes/1 or /recipes/1.json
-  def show
-    user = current_user
-    @recipe = user.recipes.find(params[:id])
-    @foods = RecipeFood.where(recipe_id: @recipe.id).includes(:food)
-  end
+  def show; end
 
   # GET /recipes/new
   def new
@@ -32,8 +27,8 @@ class RecipesController < ApplicationController
         format.html { redirect_to recipes_url, notice: 'Recipe was successfully created.' }
         format.json { render :show, status: :created, location: @recipe }
       else
-        flash[:error] = 'Error: recipe could not be saved'
-        redirect_to new_recipe_url
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @recipe.errors, status: :unprocessable_entity }
       end
     end
   end
