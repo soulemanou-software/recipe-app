@@ -1,34 +1,51 @@
 class FoodsController < ApplicationController
+  before_action :authenticate_user!
   def index
-    @foods = Food.includes([:user]).where(user_id: current_user.id).order(:name)
+    @foods = Food.all
   end
 
-  def show
-    @food = Food.find(params[:id])
-  end
-
-  def new
-    @food = Food.new
-  end
+  def new; end
 
   def create
-    @user = current_user
-    @food = current_user.foods.new(user_id: current_user.id, name: params[:name], price: params[:price],
-                                   quantity: params[:quantity], measurement_unit: params[:measurement_unit])
+    @food = Food.new(food_params)
+    @food.user_id = current_user.id
+
     if @food.save
-      redirect_to(user_foods_path(user_id: @user.id), notice: 'Food was successfully created.')
+      redirect_to foods_path, notice: 'Food was successfully created.'
     else
-      link_to('Back', user_food_path(user_id: @user.id))
+      render :new, status: :unprocessable_entity
     end
   end
 
   def destroy
     @food = Food.find(params[:id])
-    @food.destroy
-    respond_to do |format|
-      format.html do
-        redirect_to user_food_path(user_id: @food.user.id), notice: 'Food was successfully deleted.'
+    if @food.destroy
+      redirect_to foods_path, notice: 'Food was successfully deleted.'
+    else
+      render :new, notice: 'Food was not deleted.'
+    end
+  end
+
+  def shopping_list
+    food_list = Food.all
+    recipe_foods = RecipeFood.all
+
+    @shopping_list = []
+    food_list.each do |food|
+      recipe_foods.each do |recipe_food|
+        next unless food.quantity < recipe_food.quantity && food.id == recipe_food.food_id
+
+        recipe_food.quantity -= food.quantity
+        @shopping_list << food
+        price = food.price * food.quantity
+        @total_price = @total_price.to_i + price.to_i
       end
     end
+  end
+
+  private
+
+  def food_params
+    params.permit(:name, :measurement_unit, :price, :quantity, :user_id)
   end
 end

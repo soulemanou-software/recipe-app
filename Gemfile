@@ -16,7 +16,7 @@ gem 'rails', '~> 7.0.3'
 gem 'sprockets-rails'
 
 # Use postgresql as the database for Active Record
-gem 'pg', '~> 1.1'
+# gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '~> 5.0'
@@ -79,6 +79,11 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
+  gem 'rails-controller-testing'
   gem 'selenium-webdriver'
   gem 'webdrivers'
+end
+group :production do
+  gem "pg",         "1.3.5"
+  gem "aws-sdk-s3", "1.114.0", require: false
 end

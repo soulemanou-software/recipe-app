@@ -1,10 +1,30 @@
-<div class="wrapper">
+<div class="flex justify-center mt-48 mb-12 container mx-auto">
+<div class="w-1/3 bg-white shadow-lg p-10 py-10 px-6">
+<div class="flex justify-end mt-4">
+<%= link_to "New Food", new_food_path, class: "py-3 px-6 bg-green-500 mb-3 text-white hover:bg-turquoise-600" %>
+</div>
+<h2 class="text-center text-2xl text-blue-400 mb-5">Foods</h2>
+<table class="table-auto w-full">
+<thead class="bg-white-400 text-black">
+<tr>
+<th class="py-3 text-left px-5 font-semibold">Food</th>
+<th class="py-3 text-left px-5 font-semibold">Measurement unit</th>
+<th class="py-3 text-left px-5 font-semibold">Unit price</th>
+<th class="py-3 text-left pr-5 font-semibold" colspan="3">Action</th>
+</tr>
+</thead>
+<tbody>
+<% @foods.each do |food| %>
+    <tr class="hover:bg-teal-150 border">
+    <td class="right py-3 px-5"><%= food.name %></td>
+    <td class="right py-3 px-5"><%= food.measurement_unit %></td>
+    <td class="right py-3 px-5"><%= food.price %></td>
+    <td class="right py-3 px-5"><%= food.quantity %></td>
+    <td><%= button_to 'Delete', food_path(food), class: 'py-1 px-3 bg-red-500 mr-4', method: :delete %></td>
+<% end %>
+</tr>
+</tbody>
+</table>
 
-  <h1>Food List</h1>
-  <%= link_to "New Food", new_user_food_path, :class => 'btn btn-primary', :style => "align-self: self-end; margin-right: 6.5rem; margin-bottom: 3rem;" %>
-    <%= render partial: 'foods/food_card', locals: { food: @food } %>
-
-  <% if @foods.empty? %>
-    <h1>There are no foods to show</h1>
-  <% end %>
+</div>
 </div>
